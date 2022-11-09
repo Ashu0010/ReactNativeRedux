@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import ToDoApp from '../Screens/Home/ToDoApp';
+import ToDoApp from '../Screens/HomeScreen/ToDoApp';
 import Category from '../Screens/category/TaskCategory'
 import InputText from '../Screens/userinput/InputText';
 

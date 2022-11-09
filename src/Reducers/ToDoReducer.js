@@ -1,4 +1,4 @@
-import { ADDED, DELETED, EDITED, TOGGLE } from "../Actions/ToDoAction";
+import { ADDED, CHECKBOX, DELETED, EDITED, TOGGLE } from "../Actions/ToDoAction";
 
 const initial_state = {
   data: {
@@ -6,7 +6,7 @@ const initial_state = {
       {
         id: 1,
         title: 'YOUR TITLE HERE !!!',
-        subTitle:'YOUR DESCRIPTIONS HERE...........',
+        description:'YOUR DESCRIPTIONS HERE...........',
       },
     ],
 
@@ -14,7 +14,7 @@ const initial_state = {
       {
         id: 2,
         title: 'YOUR TITLE HERE !!!',
-        subTitle: 'YOUR DESCRIPTIONS HERE...........',
+        description: 'YOUR DESCRIPTIONS HERE...........',
       },
     ],
 
@@ -22,11 +22,12 @@ const initial_state = {
       {
         id: 3,
         title: 'YOUR TITLE HERE !!!',
-        subTitle: 'YOUR DESCRIPTIONS HERE...........',
+        description : 'YOUR DESCRIPTIONS HERE...........',
       },
     ],
   },
-  editing:false
+  editing:false,
+  isCheckbox : false
 };
 
 export const todoReducer = (state = initial_state, action) => {
@@ -34,13 +35,15 @@ export const todoReducer = (state = initial_state, action) => {
 
   switch (type) {
     case ADDED:
-      return { data: { ...state.data, ...payload } };
+      // return { data: { ...state.data, ...payload } };
     case DELETED:
       return { data: { ...state.data, ...payload } };
       case EDITED:
       return { data: { ...state.data, ...payload } };
       case TOGGLE:
       return {...state, editing:!state.editing};
+      case CHECKBOX:
+        return {...state, editing:!state.isCheckbox};
     default:
       return state;
   }

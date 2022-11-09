@@ -1,7 +1,8 @@
 import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView } from 'react-native'
-import React from 'react';
+import CheckBox from '@react-native-community/checkbox';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleted, toggleEditing } from '../../Actions/ToDoAction';
+import { deleted, toggleCheck, toggleEditing } from '../../Actions/ToDoAction';
 
 export default ParticularCategory = ({ route, navigation }) => {
   const { data } = useSelector((state) => state)
@@ -11,37 +12,50 @@ export default ParticularCategory = ({ route, navigation }) => {
   const onAddIcon = () => {
     navigation.navigate('USERINPUT', { nav })
   }
+
   const onDeleteIcon = (id) => {
     const prevData = data[nav];
-    const newData = prevData.filter(element => element.id !== id);
+    const newData = prevData.filter(items => items.id !== id);
     dispatch(deleted(newData, nav));
   }
-  const onEditIcon = (item,index) => {
+
+  const onEditIcon = (item, index) => {
     dispatch(toggleEditing());
-    const newData= data[nav];
-    // const newData = prevData.filter(element => element.id !== id);
-    // dispatch(deleted(newData, nav));
-    navigation.navigate('USERINPUT', { nav, btn:'UPDATE_TEXT', item, index })
+    navigation.navigate('USERINPUT', { nav, item, index })
   }
+
+  const onCheckSelector = (item,index) =>{
+    dispatch(toggleCheck());
+  }
+
   return (
     <View style={styles.container}>
+
+
       <View>
         <ScrollView>
-          {data && Object.keys(data).length > 0 && data[nav]?.map((item, index) => {
+          {data && data[nav]?.map((item, index) => {
             return (
               <View style={styles.textInput}>
 
                 <View style={styles.textView}>
                   <Text style={styles.textViewOne}>{item.title}</Text>
-                  <Text style={styles.textViewTwo}>{item.subTitle}</Text>
+                  <Text style={styles.textViewTwo}>{item.description}</Text>
                 </View>
 
                 <View style={styles.imagesView}>
-                  <TouchableOpacity onPress={() => onEditIcon(item,index)}>
+
+                  <TouchableOpacity onPress={() => onEditIcon(item, index)}>
                     <Image source={require('../../utils/icons/icons8-pencil-48.png')}
                       style={styles.images}
                       resizeMode='contain' />
                   </TouchableOpacity>
+
+                  <CheckBox
+                    onValueChange={()=>onCheckSelector(item,index)}
+                    style={styles.checkbox}
+                  />
+
                   <TouchableOpacity onPress={() => onDeleteIcon(item.id)}>
                     <Image source={require('../../utils/icons/icons8-remove-48.png')}
                       style={{ height: 30, width: 30 }}
@@ -63,7 +77,6 @@ export default ParticularCategory = ({ route, navigation }) => {
           style={styles.image}
           resizeMode='contain' />
       </TouchableOpacity>
-
     </View>
   )
 }
@@ -74,7 +87,8 @@ const styles = StyleSheet.create({
     //flexDirection:'column'
   },
   imagesView: {
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    alignItems:'center'
   },
   images: {
     height: 30,
@@ -82,11 +96,14 @@ const styles = StyleSheet.create({
   },
   textView: {
     borderRightWidth: 0.2,
-    width: 339,
+    width: 320,
+    height:'auto',
     borderRightColor: 'rgb(236,81,91)',
   },
   textViewOne: {
     marginBottom: 5,
+    fontSize: 18,
+    fontWeight:'500',
   },
   textViewTwo: {
     marginBottom: 3,
@@ -94,9 +111,8 @@ const styles = StyleSheet.create({
   },
   textInput: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     flex: 1,
-    height: 90,
     borderWidth: 0.3,
     borderColor: 'rgb(236,8,10)',
     borderRadius: 8,
@@ -105,11 +121,14 @@ const styles = StyleSheet.create({
   },
   add: {
     position: "absolute",
-    right: 0,
-    bottom: 30
+    right: -10,
+    bottom: -11
   },
   image: {
     height: 80,
     width: 80,
+  },
+  checkbox:{
+    height:30,
   },
 })

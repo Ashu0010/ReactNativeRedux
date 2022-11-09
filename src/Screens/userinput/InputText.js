@@ -1,11 +1,11 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet,ImageBackground } from 'react-native'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { added, edited } from '../../Actions/ToDoAction'
 
 export default Input = ({ route }) => {
     const [title, setTitle] = useState(route?.params?.item?.title || '')
-    const [subTitle, setSubTitle] = useState(route?.params?.item?.subTitle || '')
+    const [description, setDescription] = useState(route?.params?.item?.description || '')
 
     const { data, editing } = useSelector(state => state)
     // console.log('data =======>>>>>>>', data.COMPLETE_SCHEDULES);
@@ -13,25 +13,25 @@ export default Input = ({ route }) => {
 
     const { nav } = route.params
 
-    const onAddTask = () => {
+    const onAddEditCheckTask = () => {
         if (editing) {
             const prevData = data[nav]
-            const updateText = prevData.map((element) => {
-                if (element.id === route?.params?.item?.id) {
+            const updateText = prevData.map((items) => {
+                if (items.id === route?.params?.item?.id) {
                     return {
-                        ...element,
+                        ...items,
                         title: title,
-                        subTitle: subTitle
+                       description : description 
                     }
                 }
                 else {
-                    return element
+                    return items
                 }
             })
             dispatch(edited(updateText, nav))
         }
         else {
-            dispatch(added([...data[nav], { id: +new Date(), title: title, subTitle: subTitle, }], nav))
+            dispatch(added([...data[nav], { id: +new Date(), title: title, description: description}], nav))
         }
     }
     return (
@@ -41,6 +41,7 @@ export default Input = ({ route }) => {
                 <View style={styles.input}>
                     <TextInput
                         style={styles.inputText}
+                        multiline={true}
                         placeholderTextColor="blue"
                         placeholder='Write Your Title Here!'
                         value={title}
@@ -48,20 +49,21 @@ export default Input = ({ route }) => {
                     />
                 </View>
 
-                <View style={styles.description}>
+                <View style={styles.description} >
                     <TextInput
                         style={styles.descriptionTextInput}
+                        multiline={true}
                         placeholderTextColor="blue"
                         placeholder='Write Your Description Here!'
-                        value={subTitle}
-                        onChangeText={(text) => setSubTitle(text)}
+                        value={description}
+                        onChangeText={(text) => setDescription(text)}
                     />
                 </View>
             </View>
 
             <View style={styles.buttonView}>
                 <TouchableOpacity style={styles.buttonContainer}
-                    onPress={onAddTask} >
+                    onPress={onAddEditCheckTask} >
                     <Text style={styles.buttonText}>
                         ADD TASK
                     </Text>
@@ -73,6 +75,9 @@ export default Input = ({ route }) => {
 }
 
 const styles = StyleSheet.create({
+    background:{
+        flex:1,
+      },
     container: {
         height: '60%',
     },
