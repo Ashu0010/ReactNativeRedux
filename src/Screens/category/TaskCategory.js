@@ -2,9 +2,9 @@ import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView } from 'rea
 import CheckBox from '@react-native-community/checkbox';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleted, toggleCheck, toggleEditing } from '../../Actions/ToDoAction';
+import { deleted, edited, toggleEditing } from '../../Actions/ToDoAction';
 
-export default ParticularCategory = ({ route, navigation }) => {
+export default TaskCategory = ({ route, navigation }) => {
   const { data } = useSelector((state) => state)
   const dispatch = useDispatch();
   const { nav } = route.params
@@ -25,7 +25,19 @@ export default ParticularCategory = ({ route, navigation }) => {
   }
 
   const onCheckSelector = (item,index) =>{
-    dispatch(toggleCheck());
+    const prevData = data[nav];
+    const updateText = prevData.map((element) => {
+      if(element.index === index){
+        return{
+          ...element,
+          isCheckbox:item,
+        }
+      }
+      else{
+        return element
+      }
+    })
+    dispatch(edited(updateText, nav))
   }
 
   return (
@@ -52,7 +64,8 @@ export default ParticularCategory = ({ route, navigation }) => {
                   </TouchableOpacity>
 
                   <CheckBox
-                    onValueChange={()=>onCheckSelector(item,index)}
+                  value={item.isCheckbox}
+                    onValueChange={(item)=>onCheckSelector(item,index)}
                     style={styles.checkbox}
                   />
 

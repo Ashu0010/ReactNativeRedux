@@ -7,6 +7,7 @@ const initial_state = {
         id: 1,
         title: 'YOUR TITLE HERE !!!',
         description:'YOUR DESCRIPTIONS HERE...........',
+        isCheckbox : false
       },
     ],
 
@@ -15,6 +16,7 @@ const initial_state = {
         id: 2,
         title: 'YOUR TITLE HERE !!!',
         description: 'YOUR DESCRIPTIONS HERE...........',
+        isCheckbox : false
       },
     ],
 
@@ -23,11 +25,11 @@ const initial_state = {
         id: 3,
         title: 'YOUR TITLE HERE !!!',
         description : 'YOUR DESCRIPTIONS HERE...........',
+        isCheckbox : false
       },
     ],
   },
   editing:false,
-  isCheckbox : false
 };
 
 export const todoReducer = (state = initial_state, action) => {
@@ -42,8 +44,6 @@ export const todoReducer = (state = initial_state, action) => {
       return { data: { ...state.data, ...payload } };
       case TOGGLE:
       return {...state, editing:!state.editing};
-      case CHECKBOX:
-        return {...state, editing:!state.isCheckbox};
     default:
       return state;
   }

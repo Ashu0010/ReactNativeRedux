@@ -25,13 +25,13 @@ export default Input = ({ route }) => {
                     }
                 }
                 else {
-                    return items
+                    return items;
                 }
             })
             dispatch(edited(updateText, nav))
         }
         else {
-            dispatch(added([...data[nav], { id: +new Date(), title: title, description: description}], nav))
+            dispatch(added([...data[nav], { id: +new Date(), title: title, description: description, isCheckbox : false}], nav))
         }
     }
     return (

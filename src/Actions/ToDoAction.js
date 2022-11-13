@@ -2,7 +2,6 @@ export const ADDED = 'ADDED';
 export const DELETED = 'DELETED'
 export const EDITED = 'EDITED'
 export const TOGGLE = 'TOGGLE'
-export const CHECKBOX = 'CHECKBOX'
 // export const AddTodo = payload => ({type: ADD_TODO, payload});
 // export const RemoveTodo = payload => ({type: REMOVE_TODO, payload});
 
@@ -26,13 +25,8 @@ export const edited = (data,nav) => {
         payload : {[nav]:data},
     }
 }
-export const toggleEditing = (data,nav) => {
+export const toggleEditing = (data, nav) => {
     return{
         type : TOGGLE
-    }
-}
-export const toggleCheck = (data,nav) => {
-    return{
-        type : CHECKBOX
     }
 }
